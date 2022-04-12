@@ -1,9 +1,12 @@
 <template>
-  <h1>Welcome to my blog!</h1>
+  <h1>Strategic Design</h1>
 </template>
 
 <script>
-export default {}
+export default {
+  name: 'Homepage',
+  layout: 'DefaultLayout'
+}
 </script>
 
 <style>
