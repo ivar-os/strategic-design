@@ -1,4 +1,4 @@
-# nuxt-content-tutorial
+# Strategic Design
 
 ## Build Setup
 
