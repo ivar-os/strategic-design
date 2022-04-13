@@ -6,15 +6,18 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - nuxt-content-tutorial',
-    title: 'nuxt-content-tutorial',
+    // titleTemplate: '%s - nuxt-content-tutorial',
+    title: 'Strategic Design',
     htmlAttrs: {
       lang: 'en'
     },
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
+      {
+        hid: 'description',
+        name: 'description',
+        content: 'Writing about Product Management, Strategy and tactics' },
       { name: 'format-detection', content: 'telephone=no' }
     ],
     link: [
