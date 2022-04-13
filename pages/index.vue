@@ -26,6 +26,18 @@
       <v-col v-for="post in posts" :key="post.slug" cols="12" md="6">
         <v-card elevation="0">
           <v-card-title> {{ post.title }} </v-card-title>
+          <v-card-subtitle>
+            {{
+              new Intl.DateTimeFormat('en-US', {
+                year: 'numeric',
+                month: 'numeric',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: 'numeric',
+                second: 'numeric'
+              }).format(new Date(post.createdAt))
+            }}
+          </v-card-subtitle>
           <v-card-text>
             <nuxt-content :document="{ body: post.excerpt }" />
           </v-card-text>
@@ -38,11 +50,11 @@
 
     <v-row class="post-pagination">
       <v-col class="text-right" cols="12">
-        <v-btn @click="fetchPrevious">
+        <v-btn :disabled="page === 1" @click="fetchPrevious">
           <v-icon small> mdi-arrow-left </v-icon>
           Previous
         </v-btn>
-        <v-btn @click="fetchNext">
+        <v-btn :disabled="!nextPage" @click="fetchNext">
           Next
           <v-icon small> mdi-arrow-right </v-icon>
         </v-btn>
@@ -96,8 +108,8 @@ export default {
         .skip((this.limit - 1) * (this.page - 1))
         .fetch()
 
-      const nextPage = fetchedPosts.length === this.limit
-      const posts = nextPage ? fetchedPosts.slice(0, -1) : fetchedPosts
+      this.nextPage = fetchedPosts.length === this.limit
+      const posts = this.nextPage ? fetchedPosts.slice(0, -1) : fetchedPosts
 
       this.posts = posts
     },
