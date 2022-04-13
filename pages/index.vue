@@ -23,14 +23,14 @@
         </div>
       </v-col>
 
-      <v-col v-for='post in posts' :key="post.slug" cols="12" md="6">
+      <v-col v-for="post in posts" :key="post.slug" cols="12" md="6">
         <v-card elevation="0">
-          <v-card-title> My first blog </v-card-title>
+          <v-card-title> {{ post.title }} </v-card-title>
           <v-card-text>
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad at corporis dolores excepturi, facilis impedit iure, molestiae molestias officia quae, quas similique soluta temporibus? Autem blanditiis consectetur neque optio veniam.
+            <nuxt-content :document="{ body: post.excerpt }" />
           </v-card-text>
           <v-card-actions>
-            <v-btn text to="/1">Read more</v-btn>
+            <v-btn text :to="post.path">Read more</v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -38,11 +38,11 @@
 
     <v-row class="post-pagination">
       <v-col class="text-right" cols="12">
-        <v-btn>
+        <v-btn @click="fetchPrevious">
           <v-icon small> mdi-arrow-left </v-icon>
           Previous
         </v-btn>
-        <v-btn>
+        <v-btn @click="fetchNext">
           Next
           <v-icon small> mdi-arrow-right </v-icon>
         </v-btn>
@@ -80,9 +80,28 @@ export default {
     category: 'all'
   }),
 
-  mounted() {
-    console.log(this.posts);
-  }
+  methods: {
+    async fetchNext() {
+      this.page += 1
+      await this.fetchPosts()
+    },
+    async fetchPrevious() {
+      this.page -= 1
+      await this.fetchPosts()
+    },
+    async fetchPosts() {
+      const fetchedPosts = await this.$content()
+        .limit(this.limit)
+        .sortBy('createdAt', 'desc')
+        .skip((this.limit - 1) * (this.page - 1))
+        .fetch()
+
+      const nextPage = fetchedPosts.length === this.limit
+      const posts = nextPage ? fetchedPosts.slice(0, -1) : fetchedPosts
+
+      this.posts = posts
+    },
+  },
 }
 </script>
 
