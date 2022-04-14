@@ -150,10 +150,13 @@ export default {
       this.nextPage = fetchedPosts.length === this.limit
       const posts = this.nextPage ? fetchedPosts.slice(0, -1) : fetchedPosts
 
+      console.log(posts);
+
       this.posts = posts
     },
   },
 }
+
 </script>
 
 <style>
