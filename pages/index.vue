@@ -155,6 +155,9 @@ export default {
       this.posts = posts
     },
   },
+  mounted() {
+    console.log(this.posts);
+  }
 }
 
 </script>
